@@ -12,7 +12,9 @@ app.use(cors());
 app.use(cookieParser());
 
 const user = require("./routes/user");
+const question = require("./routes/question");
 
 app.use("/api/v1", user);
+app.use("/api/v1", question);
 
 module.exports = app;

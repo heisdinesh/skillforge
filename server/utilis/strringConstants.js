@@ -16,11 +16,16 @@ const stringConstants = {
   noProject: "Project not found",
   updateExsist: "Today's update already exists, reupdate for further changes",
   noSocietyName: "Please provide society name",
-  societyExists: "society name already exsist, try different name",
+  societyExists: "Society name already exsist, try different name",
   societyNotFound: "There is no such society, Please provide correct Id",
   serverError: "Internal server error",
   noFamily: "No Family is found with this id",
   activityNotFound: "No Activity found with this id",
+  noTopic: "Topic is required",
+  noDifficulty: "Difficulty is required",
+  noOptions: "Options are required",
+  noCorrectAnswer: "Correct answer is required",
+  noOptions: "Please provide options",
 };
 
 module.exports = stringConstants;
