@@ -14,9 +14,11 @@ app.use(cookieParser());
 const user = require("./routes/user");
 const question = require("./routes/question");
 const assessment = require("./routes/assessment");
+const userAssessment = require("./routes/userAssessment");
 
 app.use("/api/v1", user);
 app.use("/api/v1", question);
 app.use("/api/v1", assessment);
+app.use("/api/v1", userAssessment);
 
 module.exports = app;

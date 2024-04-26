@@ -1,9 +1,4 @@
 const mongoose = require("mongoose");
-const validator = require("validator");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-const crypto = require("crypto");
-const { Types } = mongoose;
 
 const userAssessmentSchema = new mongoose.Schema({
   user: {
@@ -29,14 +24,23 @@ const userAssessmentSchema = new mongoose.Schema({
       nextQuestionDifficulty: { type: Number, required: true },
     },
   ],
-  startTime: { type: Date, required: true },
-  endTime: { type: Date, required: true },
+  startTime: { type: Date, default: Date.now, required: true },
+  endTime: { type: Date, default: Date.now, required: true },
   score: {
     type: Number,
     required: [true, "Please provide score for the test"],
     default: 0,
   },
   // Other details like score, performance metrics, etc. can be added here
+});
+
+// Middleware to update endTime before saving/updating document
+userAssessmentSchema.pre("save", function (next) {
+  // Set endTime to current time when the document is updated
+  if (this.isModified()) {
+    this.endTime = new Date();
+  }
+  next();
 });
 
 module.exports = mongoose.model("UserAssessment", userAssessmentSchema);
