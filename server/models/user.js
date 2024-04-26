@@ -20,6 +20,16 @@ const userSchema = new mongoose.Schema({
     minlength: [6, "Passwords must conatins atlest 6 characters"],
     required: [true, "Please provide password"],
   },
+  ability: {
+    type: Number,
+    default: 1,
+    validate: {
+      validator: function (value) {
+        return value >= 1 && value <= 10;
+      },
+      message: "Ability must be between 1 and 10",
+    },
+  },
 });
 // Set default username to be the same as the email
 userSchema.pre("save", function (next) {
