@@ -26,6 +26,7 @@ const stringConstants = {
   noOptions: "Options are required",
   noCorrectAnswer: "Correct answer is required",
   noOptions: "Please provide options",
+  questionNotFound: "Question not found",
 };
 
 module.exports = stringConstants;

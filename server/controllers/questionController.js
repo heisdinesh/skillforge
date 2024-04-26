@@ -102,3 +102,50 @@ exports.getQuestion = async (req, res, next) => {
     next(new CustomError(stringConstants.serverError, 500));
   }
 };
+
+exports.getNextQuestion = async (req, res, next) => {
+  const { difficulty, topic, subTopic, currentQuestionId } = req.body;
+  console.log(currentQuestionId);
+  try {
+    // Construct a query to find the next question based on the provided parameters
+    const query = {
+      _id: { $ne: currentQuestionId }, // Exclude the current question
+      topic,
+      difficulty,
+    };
+
+    // Include the subtopic in the query if provided
+    if (subTopic) {
+      query.subTopic = subTopic;
+    }
+
+    const nextQuestion = await Question.findOne(query);
+
+    if (!nextQuestion) {
+      return next(new CustomError("Question not found", 404));
+    }
+
+    res.status(200).json({
+      success: true,
+      data: nextQuestion,
+    });
+  } catch (error) {
+    console.error(error);
+    next(new CustomError("Internal server error", 500));
+  }
+};
+
+exports.getAllQuestions = async (req, res, next) => {
+  try {
+    // Query all questions from the database
+    const questions = await Question.find();
+
+    res.status(200).json({
+      success: true,
+      data: questions,
+    });
+  } catch (error) {
+    console.error(error);
+    next(new CustomError(stringConstants.serverError, 500));
+  }
+};
