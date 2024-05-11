@@ -4,25 +4,33 @@ const stringConstants = require("../utilis/strringConstants");
 
 exports.createQuestion = async (req, res, next) => {
   try {
-    const { topic, subTopic, difficulty, options, correctAnswer, resource } =
-      req.body;
-    if (!options) {
-      return next(new CustomError(stringConstants.noOptions, 400));
-    }
-    const question = await Question.create({
+    const {
       topic,
       subTopic,
       difficulty,
       options,
       correctAnswer,
       resource,
+      question,
+    } = req.body;
+    if (!options) {
+      return next(new CustomError(stringConstants.noOptions, 400));
+    }
+    const questionI = await Question.create({
+      topic,
+      subTopic,
+      difficulty,
+      options,
+      correctAnswer,
+      resource,
+      question,
       createdBy: req.user.id,
     });
 
     res.status(201).json({
       success: true,
       message: "Question created successfully",
-      data: question,
+      data: questionI,
     });
   } catch (error) {
     if (error.name === "ValidationError") {

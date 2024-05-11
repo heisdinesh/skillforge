@@ -5,7 +5,7 @@ import Navbar from "@/components/Navbar";
 const LandingPage = () => {
   return (
     <>
-      <Navbar />
+      {/* <Navbar /> */}
       <div className="bg-gray-100  text-gray-950 min-h-screen flex flex-col justify-center items-center">
         {/* <div className="max-w-4xl w-full mx-auto p-8 bg-white rounded-lg shadow-md"> */}
         <h1 className="text-4xl font-bold mb-4 text-center">

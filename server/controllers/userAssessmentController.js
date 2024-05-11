@@ -12,9 +12,6 @@ exports.createUserAssessment = async (req, res, next) => {
       user: userId,
       assessment,
       responses,
-      startTime,
-      endTime,
-      score,
     });
 
     res.status(201).json({

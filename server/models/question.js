@@ -10,6 +10,10 @@ const questionSchema = new mongoose.Schema({
     type: String,
     required: [true, "Please provide topic"],
   },
+  question: {
+    type: String,
+    required: [true, "Please provide question"],
+  },
   subTopic: {
     type: String,
   },
