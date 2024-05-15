@@ -1,8 +1,11 @@
 import React from "react";
 import "@/app/globals.css";
 import Navbar from "@/components/Navbar";
+// import Router from "next/router";
+import { useRouter } from "next/router";
 
 const LandingPage = () => {
+  const router = useRouter();
   return (
     <>
       {/* <Navbar /> */}
@@ -51,8 +54,13 @@ const LandingPage = () => {
           <p className="text-lg">
             Sign up now and start preparing for your future!
           </p>
-          <button className="mt-4 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg">
-            Sign Up
+          <button
+            className="mt-4 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg"
+            onClick={() => {
+              router.push("/user/login");
+            }}
+          >
+            Login
           </button>
         </div>
         {/* </div> */}

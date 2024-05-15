@@ -29,7 +29,16 @@ import { useRouter } from "next/router"; // Import useRouter from Next.js
 const Practice = () => {
   const dispatch = useDispatch();
   const router = useRouter(); // Initialize router
-  const [currentQuestionId, setCurrentQuestionId] = useState();
+  const [currentQuestion, setCurrentQuestion] = useState({
+    topic: "C_Programming",
+    subTopic: "Expressions",
+    difficulty: "2",
+    question:
+      "Which of the following are unary operators in C? 1.!  2.sizeof  3.~  4.&&",
+    options: ["1,2", "1,3", "2,4", "1,2,3"],
+    correctAnswer: "4",
+    resource: "https://example.com/resource",
+  });
   const [question, setQuestion] = useState(
     "Which of the following correctly shows the hierarchy of arithmetic operations in C?"
   );
@@ -39,6 +48,8 @@ const Practice = () => {
     "+ - / *",
     "/ * + -",
   ]);
+  const [flag, setFlag] = useState(0);
+  const [score, setScore] = useState(0);
   const { index } = router.query;
   console.log("hihi");
   const getNextQuestionSuccess = useSelector(
@@ -50,6 +61,40 @@ const Practice = () => {
   const questionData = useSelector(
     (state) => state?.userAssessment?.nextQuestionData?.data
   );
+  const [selectedOption, setSelectedOption] = useState(null);
+  const [difficulty, setDifficulty] = useState(0);
+
+  const handleOptionSelect = (optionIndex) => {
+    setSelectedOption(optionIndex);
+    // Do whatever you want with the selected option here
+  };
+  const difficulthandler = () => {
+    console.log(">>>>>>>>>>>>>>>>>>>>>>>>");
+    console.log(selectedOption);
+    let difficulth = difficulty;
+    console.log(currentQuestion.correctAnswer);
+    if (currentQuestion.correctAnswer == selectedOption + 1) {
+      console.log("takakaka");
+      difficulth = difficulth + 1;
+      setDifficulty(difficulty + 1);
+      setScore(score + 1);
+    } else {
+      difficulth = difficulth - 1;
+      setDifficulty(difficulty - 1);
+      if (score >= 1) {
+        setScore(score - 1);
+      }
+    }
+    dispatch(
+      UserAssessmentActions.getNextQuestion({
+        topic: currentQuestion.topic,
+        subTopic: currentQuestion.subTopic,
+        difficulty: difficulth,
+        currentQuestionId: currentQuestion._id,
+      })
+    );
+    setFlag(1);
+  };
 
   useEffect(() => {
     console.log("first");
@@ -64,22 +109,18 @@ const Practice = () => {
 
   useEffect(() => {
     if (getNextQuestionSuccess) {
+      setFlag(0);
       console.log(questionData?.question);
       setQuestion(questionData?.question);
       setOptions(questionData?.options);
       dispatch(UserAssessmentActions.getNextQuestionInit());
+      setCurrentQuestion(questionData);
+      setSelectedOption(null);
     }
   }, [questionData]);
 
   const getNextQuestion = () => {
-    dispatch(
-      UserAssessmentActions.getNextQuestion({
-        topic: "C_Programming",
-        subTopic: "Expressions",
-        difficulty: "3",
-        currentQuestionId: "662bcec9e294a5d9a373975e",
-      })
-    );
+    difficulthandler();
   };
 
   useEffect(() => {
@@ -91,10 +132,15 @@ const Practice = () => {
     <div className="relative text-gray-950 flex flex-col">
       {/* <Clock /> */}
       <div className="">
-        <Question question={question} options={options} />
+        <Question
+          flag={flag}
+          onOptionSelect={handleOptionSelect}
+          question={question}
+          options={options}
+        />
       </div>
       <div className="bg-gray-200 py-4 flex justify-between items-center px-8">
-        <div className="text-lg font-semibold">Score: 0</div>
+        <div className="text-lg font-semibold">Score: {score}</div>
         <button
           onClick={getNextQuestion}
           className="bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg"

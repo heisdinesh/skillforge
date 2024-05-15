@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
-const Question = ({ question, options }) => {
+const Question = ({ question, options, onOptionSelect, flag }) => {
   const [selectedOption, setSelectedOption] = useState(null);
 
   const colors = [
@@ -10,10 +10,20 @@ const Question = ({ question, options }) => {
     "bg-purple-500",
   ];
 
+  useEffect(() => {
+    if (flag) {
+      setSelectedOption(null);
+    }
+  }, [flag]);
+
+  // const handleOptionClick = (optionIndex) => {
+  //   setSelectedOption(optionIndex);
+  // };
   const handleOptionClick = (optionIndex) => {
     setSelectedOption(optionIndex);
+    // Call the callback function with the selected option
+    onOptionSelect(optionIndex);
   };
-
   return (
     <div className="min-h-screen text-gray-950 flex flex-col items-center justify-center bg-gray-100">
       <div className="max-w-3xl w-full mx-auto p-8 bg-white rounded-lg shadow-md">
