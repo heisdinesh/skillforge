@@ -3,32 +3,13 @@ import Question from "@/components/Question";
 import { FaRegClock } from "react-icons/fa";
 import * as UserAssessmentActions from "@/app/store/userAssessment/actions";
 import { useDispatch, useSelector } from "react-redux";
+import toast, { Toaster } from "react-hot-toast";
 import { useRouter } from "next/router"; // Import useRouter from Next.js
-
-// const Clock = () => {
-//   const [count, setCount] = useState(60);
-//   console.log("lolo");
-//   useEffect(() => {
-//     const timer = setInterval(() => {
-//       setCount((prevCount) => prevCount - 1);
-//     }, 1000);
-
-//     return () => {
-//       clearInterval(timer);
-//     };
-//   }, []);
-
-//   return (
-//     <div className="absolute flex gap-2 items-center justify-center top-0 right-0 p-4 text-lg font-semibold">
-//       <FaRegClock />
-//       <p>{count}</p>
-//     </div>
-//   );
-// };
 
 const Practice = () => {
   const dispatch = useDispatch();
   const router = useRouter(); // Initialize router
+  const [timeLeft, setTimeLeft] = useState(60);
   const [currentQuestion, setCurrentQuestion] = useState({
     topic: "C_Programming",
     subTopic: "Expressions",
@@ -48,10 +29,25 @@ const Practice = () => {
     "+ - / *",
     "/ * + -",
   ]);
+  useEffect(() => {
+    if (timeLeft === 0) {
+      getNextQuestion();
+    }
+  }, [timeLeft]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (timeLeft > 0) {
+        setTimeLeft(timeLeft - 1);
+      }
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, [timeLeft]);
   const [flag, setFlag] = useState(0);
   const [score, setScore] = useState(0);
   const { index } = router.query;
-  console.log("hihi");
+
   const getNextQuestionSuccess = useSelector(
     (state) => state?.userAssessment?.getNextQuestionSuccess
   );
@@ -69,17 +65,19 @@ const Practice = () => {
     // Do whatever you want with the selected option here
   };
   const difficulthandler = () => {
-    console.log(">>>>>>>>>>>>>>>>>>>>>>>>");
-    console.log(selectedOption);
     let difficulth = difficulty;
     console.log(currentQuestion.correctAnswer);
     if (currentQuestion.correctAnswer == selectedOption + 1) {
+      toast.success("You answered it correct!");
+
       console.log("takakaka");
       difficulth = difficulth + 1;
       setDifficulty(difficulty + 1);
       setScore(score + 1);
     } else {
       difficulth = difficulth - 1;
+      toast.error("Wrong answer!");
+
       setDifficulty(difficulty - 1);
       if (score >= 1) {
         setScore(score - 1);
@@ -116,6 +114,7 @@ const Practice = () => {
       dispatch(UserAssessmentActions.getNextQuestionInit());
       setCurrentQuestion(questionData);
       setSelectedOption(null);
+      setTimeLeft(60);
     }
   }, [questionData]);
 
@@ -131,9 +130,11 @@ const Practice = () => {
   return (
     <div className="relative text-gray-950 flex flex-col">
       {/* <Clock /> */}
+
       <div className="">
         <Question
           flag={flag}
+          timeLeft={timeLeft}
           onOptionSelect={handleOptionSelect}
           question={question}
           options={options}
@@ -148,6 +149,22 @@ const Practice = () => {
           Next
         </button>
       </div>
+      <Toaster
+        toastOptions={{
+          success: {
+            style: {
+              background: "green",
+              color: "white",
+            },
+          },
+          error: {
+            style: {
+              background: "red",
+              color: "white",
+            },
+          },
+        }}
+      />
     </div>
   );
 };

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 
-const Question = ({ question, options, onOptionSelect, flag }) => {
+import { FaRegClock } from "react-icons/fa";
+
+const Question = ({ question, options, onOptionSelect, flag, timeLeft }) => {
   const [selectedOption, setSelectedOption] = useState(null);
 
   const colors = [
@@ -26,6 +28,9 @@ const Question = ({ question, options, onOptionSelect, flag }) => {
   };
   return (
     <div className="min-h-screen text-gray-950 flex flex-col items-center justify-center bg-gray-100">
+      <div className="bg-gray-100 border-0 text-lg font-semibold flex items-center justify-end gap-2 w-full mr-10">
+        <FaRegClock /> {timeLeft} seconds left
+      </div>
       <div className="max-w-3xl w-full mx-auto p-8 bg-white rounded-lg shadow-md">
         <h2 className="text-3xl font-bold mb-6 text-center">{question}</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-white">

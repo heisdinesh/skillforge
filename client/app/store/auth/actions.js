@@ -11,6 +11,7 @@ import {
   SIGN_OUT_SUCCESS,
   SIGN_OUT_FAILURE,
   SIGN_OUT_INIT,
+  TOTAL_AUTH_INIT,
 } from "./actionTypes";
 
 export const signUp = (data) => ({
@@ -67,5 +68,10 @@ export const signOutFailure = (data) => ({
 
 export const signOutInit = (data) => ({
   type: SIGN_OUT_INIT,
+  payload: data,
+});
+
+export const totalAuthInit = (data) => ({
+  type: TOTAL_AUTH_INIT,
   payload: data,
 });

@@ -7,6 +7,7 @@ import {
   GET_NEXT_QUESTION_SUCCESS,
   GET_NEXT_QUESTION_FAILURE,
   GET_NEXT_QUESTION_INIT,
+  TOTAL_USER_ASSESSMENT_INIT,
 } from "./actionTypes";
 
 export const createUserAssessment = (data) => ({
@@ -46,5 +47,10 @@ export const getNextQuestionFailure = (data) => ({
 
 export const getNextQuestionInit = (data) => ({
   type: GET_NEXT_QUESTION_INIT,
+  payload: data,
+});
+
+export const totalUserAssessmentInit = (data) => ({
+  type: TOTAL_USER_ASSESSMENT_INIT,
   payload: data,
 });

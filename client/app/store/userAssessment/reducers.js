@@ -7,6 +7,7 @@ import {
   GET_NEXT_QUESTION_SUCCESS,
   GET_NEXT_QUESTION_FAILURE,
   GET_NEXT_QUESTION_INIT,
+  TOTAL_USER_ASSESSMENT_INIT,
 } from "./actionTypes";
 
 const initialState = {
@@ -79,6 +80,17 @@ const userAssessmentReducer = (state = initialState, action) => {
         getNextQuestionSuccess: false,
         getNextQuestionFailure: false,
         nextQuestionData: null,
+      };
+    case TOTAL_USER_ASSESSMENT_INIT:
+      return {
+        userAssessmentData: null,
+        createUserAssessmentSuccess: false,
+        createUserAssessmentFailure: false,
+        createUserAssessmentError: null,
+        nextQuestionData: null,
+        getNextQuestionSuccess: false,
+        getNextQuestionFailure: false,
+        getNextQuestionError: null,
       };
     default:
       return state;

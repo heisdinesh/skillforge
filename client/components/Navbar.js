@@ -2,11 +2,17 @@ import React, { useState, useRef, useEffect } from "react";
 import "@/app/globals.css";
 import { CgProfile } from "react-icons/cg";
 import { useSelector } from "react-redux";
+import * as AuthActions from "@/app/store/auth/actions";
+import * as AssessmentActions from "@/app/store/assessment/actions";
+import * as UserAssessmentActions from "@/app/store/userAssessment/actions";
+import { useDispatch } from "react-redux";
+import { useRouter } from "next/router";
 
 const Navbar = ({ username }) => {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [userName, setUserName] = useState();
-
+  const router = useRouter();
+  const dispatch = useDispatch();
   const handleProfileClick = () => {
     setIsProfileOpen(!isProfileOpen);
   };
@@ -14,7 +20,12 @@ const Navbar = ({ username }) => {
 
   const handleLogout = () => {
     // Implement your logout logic here
-    console.log("Logout clicked");
+    dispatch(AuthActions.signOut());
+    localStorage.clear();
+    dispatch(AuthActions.totalAuthInit());
+    dispatch(AssessmentActions.createAssessmentInit());
+    dispatch(UserAssessmentActions.totalUserAssessmentInit());
+    router.push("/user/login");
   };
   const profileRef = useRef(null);
 
@@ -57,7 +68,7 @@ const Navbar = ({ username }) => {
         {/* <span className="text-white mr-4">{userName}</span> */}
         {/* Profile Dropdown */}
         {isProfileOpen && (
-          <div className="absolute top-12 right-8 bg-white shadow-md p-2 rounded-lg">
+          <div className="absolute top-12 right-8 bg-white shadow-md p-2 rounded-lg z-10">
             <button className="block w-full text-left py-2 px-4 text-gray-800 hover:bg-gray-200">
               Dashboard
             </button>

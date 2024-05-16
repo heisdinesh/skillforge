@@ -12,6 +12,7 @@ import {
   SIGN_OUT_SUCCESS,
   SIGN_OUT_FAILURE,
   SIGN_OUT_INIT,
+  TOTAL_AUTH_INIT,
 } from "./actionTypes";
 
 const initialState = {
@@ -120,6 +121,19 @@ const authReducer = (state = initialState, action) => {
         signOutError: null,
         signOutSuccess: false,
         signOutFailure: false,
+      };
+    case TOTAL_AUTH_INIT:
+      return {
+        userDetails: null,
+        signUpSuccess: false,
+        signUpFailure: false,
+        signUpError: null,
+        signInSuccess: false,
+        signInFailure: false,
+        signInError: null,
+        signOutSuccess: false,
+        signOutFailure: false,
+        signOutError: null,
       };
 
     default:

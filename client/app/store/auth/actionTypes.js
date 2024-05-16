@@ -12,3 +12,5 @@ export const SIGN_OUT = "SIGN_OUT";
 export const SIGN_OUT_SUCCESS = "SIGN_OUT_SUCCESS";
 export const SIGN_OUT_FAILURE = "SIGN_OUT_FAILURE";
 export const SIGN_OUT_INIT = "SIGN_OUT_INIT";
+
+export const TOTAL_AUTH_INIT = "TOTAL_AUTH_INIT";
